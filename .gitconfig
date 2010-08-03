@@ -1,0 +1,6 @@
+[user]
+  name = Axel Tetzlaff
+  email = axel.tetzlaff@gmx.de
+[core]
+  editor = /usr/bin/vim
+
