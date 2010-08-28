@@ -4,3 +4,8 @@
 [core]
   editor = /usr/bin/vim
 
+[color] 
+				status = auto 
+				diff = auto 
+				branch = auto
+
