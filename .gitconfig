@@ -9,3 +9,5 @@
 				diff = auto 
 				branch = auto
 
+[push]
+	default = tracking
