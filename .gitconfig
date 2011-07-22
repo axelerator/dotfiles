@@ -11,3 +11,11 @@
 
 [push]
 	default = tracking
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	serve= daemon --reuseaddr --verbose --base-path=. --export-all ./.git
+[merge]
+  tool = vimdiff

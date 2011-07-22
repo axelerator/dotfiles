@@ -18,6 +18,14 @@ export BROWSER="firefox"
 export TERMCMD="urxvtc"
 export EDITOR="vim"
 
+source "$HOME/.profile"
+
+if [[ `uname` == 'Darwin' ]] ; then
+	OS='MACOS'
+else
+	OS='LINUX'
+fi
+
 # Things from dev.gentoo.org/~ciaranm/configs/bashrc -- thanks Ciaran!
 if [[ "${TERM}" == "rxvt-unicode" ]] ; then
     export TERMTYPE="256"
@@ -71,7 +79,7 @@ export WORDCHARS='*?_-[]~=&;!#$%^(){}'
 
 # Follow GNU LS_COLORS for completion menus
 zmodload -i zsh/complist
-eval $(dircolors -b /home/th/.dir_colors)
+eval $(dircolors -b $HOME/.dir_colors)
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*:*:kill:*' list-colors '=%*=01;31'
 
@@ -264,10 +272,19 @@ bindkey '\e[5~' history-incremental-search-backward  # PageUp
 bindkey '\e[6~' history-incremental-search-forward # PageDown
 
 # Aliases
-alias ls="ls -F --color=always"
+if [[ "$OS" == 'MACOS' ]]; then
+	alias ls="ls -FGh" 
+	alias ff='find . -iname'
+	alias ll="ls -FGlh "
+	alias la="ls -FGlha "
+else
+	alias ls="ls -F --color=always"
+	alias ll="ls -lh --color=auto"
+	alias la="ls -lha --color=auto"
+fi
+
 alias mutt="mutt -y"
 alias muttng="muttng -y"
-alias cvs="colorcvs"
 
 # This function sets the window tile to user@host:/workingdir before each
 # prompt. If you're using screen, it sets the window title (works
@@ -602,37 +619,31 @@ NO_sh_file_expansion	\
 NO_sh_word_split	\
 NO_single_line_zle	\
 NO_sun_keyboard_hack	\
-NO_verbose		\
-   zle
+NO_verbose		
 
 
 # This line was appended by KDE
 # Make sure our customised gtkrc file is loaded.
 export GTK2_RC_FILES=$HOME/.gtkrc-2.0
+export PATH="$PATH:/usr/local/pgsql/bin"
+export MANPATH="$MANPATH:/usr/local/pgsql/man"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/pgsql/lib"
 
-alias ll="ls -lh --color=auto"
-alias la="ls -lha --color=auto"
 
-export HOSTNAME=heptachlor
-
-alias mvnd='MAVEN_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=n" mvn'
-
-export mvnc='MAVEN_OPTS="-Xmx384M -XX:MaxPermSize=128m" mvn'
-
+export HOSTNAME=axeleratorpro
+export LANG="en_US.UTF-8"
+export LC_COLLATE="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+export LC_MESSAGES="en_US.UTF-8"
+export LC_MONETARY="en_US.UTF-8"
+export LC_NUMERIC="en_US.UTF-8"
+export LC_TIME="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 alias diff=colordiff
 
 alias grep="grep --color=auto"
 
 alias remind="remind -b1 -m"
-
-# color diffs for SVN
-function svndiff () {
-  if [ "$1" != "" ]; then
-    svn diff $@ | colordiff | less -R;
-  else
-    svn diff | colordiff | less -R;
-  fi
-}
-
-export OOO_FORCE_DESKTOP=gnome
-
+alias ack="ack -a"
+[[ -s "/Users/at/.rvm/scripts/rvm" ]] && source "/Users/at/.rvm/scripts/rvm"
+prompt adam2
