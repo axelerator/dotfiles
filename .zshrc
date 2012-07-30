@@ -79,7 +79,7 @@ export WORDCHARS='*?_-[]~=&;!#$%^(){}'
 
 # Follow GNU LS_COLORS for completion menus
 zmodload -i zsh/complist
-eval $(dircolors -b $HOME/.dir_colors)
+#eval $(dircolors -b $HOME/.dir_colors)
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*:*:kill:*' list-colors '=%*=01;31'
 
@@ -628,7 +628,7 @@ export GTK2_RC_FILES=$HOME/.gtkrc-2.0
 export PATH="$PATH:/usr/local/pgsql/bin"
 export MANPATH="$MANPATH:/usr/local/pgsql/man"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/pgsql/lib"
-
+export PATH="$PATH:/Users/at/dev/maven/apache-maven-3.0.3/bin"
 
 export HOSTNAME=axeleratorpro
 export LANG="en_US.UTF-8"
@@ -646,4 +646,10 @@ alias grep="grep --color=auto"
 alias remind="remind -b1 -m"
 alias ack="ack -a"
 [[ -s "/Users/at/.rvm/scripts/rvm" ]] && source "/Users/at/.rvm/scripts/rvm"
+if [[ -s /Users/at/lib/git-achievements/git-achievements ]] ; then
+  alias git='/Users/at/lib/git-achievements/git-achievements'
+fi
+alias be='bundle exec'
 prompt adam2
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

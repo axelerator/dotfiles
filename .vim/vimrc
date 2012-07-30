@@ -38,7 +38,7 @@ set visualbell                    " No beeping.
 
 set nobackup                      " Don't make a backup before overwriting a file.
 set nowritebackup                 " And again.
-set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
+set directory=/tmp//,.  " Keep swap files in one location
 
 " UNCOMMENT TO USE
 set tabstop=2                    " Global tab width.
@@ -48,6 +48,9 @@ set expandtab                    " Use spaces instead of tabs
 set laststatus=2                  " Show the status line all the time
 " Useful status information at bottom of screen
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{fugitive#statusline()}%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
+
+" ignore whitespace in vimdiff
+set diffopt+=iwhite
 
 " Or use vividchalk
 colorscheme vividchalk
@@ -80,4 +83,9 @@ map <leader>tm :tabmove
 " For the MakeGreen plugin and Ruby RSpec. Uncomment to use.
 "autocmd BufNewFile,BufRead *_spec.rb compiler rspec
 
-autocmd BufWritePost *.coffee silent CoffeeMake!
+" autocmd BufWritePost *.coffee silent CoffeeMake!
+nnoremap <C-E> :FufCoverageFile<CR>
+nnoremap <C-J> ]c
+nnoremap <C-K> [c
+nnoremap <C-H> :diffget //2<CR>
+nnoremap <C-L> :diffget //3<CR>
