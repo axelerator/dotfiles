@@ -211,8 +211,72 @@ autoload -U colors; colors
 # *just* the gentoo prompt theme. I would investigate, but I'm
 # lazy.
 autoload -U promptinit; promptinit
-prompt adam2
 
+
+typeset -ga preexec_functions
+typeset -ga precmd_functions
+typeset -ga chpwd_functions
+
+setopt prompt_subst
+export __CURRENT_GIT_BRANCH=
+parse_git_branch() { git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/' }
+parse_git_status() { 
+  ST=`git status -s 2> /dev/null`
+  if [ -n "$ST" ] ; then ; echo '*' ; fi  
+}
+
+git_str() { 
+  BRANCH="$(parse_git_branch)"
+  
+  if [ "$BRANCH" = 'production' ] ; then
+    BRANCH="%B%F{red}$BRANCH"
+  fi
+
+  if [ -n "$BRANCH" ] ; then
+    echo "(${BRANCH}%B%F{red}$(parse_git_status)%B%F{black})"
+  else
+    echo ""
+  fi
+}
+
+preexec_functions+='zsh_preexec_update_git_vars'
+zsh_preexec_update_git_vars() {
+  case "$(history $HISTCMD)" in 
+          *git*)
+          export __CURRENT_GIT_BRANCH="$(parse_git_branch)"
+          ;;
+  esac
+}
+chpwd_functions+='zsh_chpwd_update_git_vars'
+zsh_chpwd_update_git_vars() {
+      export __CURRENT_GIT_BRANCH="$(parse_git_branch)"
+}
+get_git_prompt_info() {
+      echo $__CURRENT_GIT_BRANCH
+}
+
+my_prompt() {
+local line1_prefix='%B%F{cyan}.%b%F{cyan}-%B%F{black}(%B%F{green}%~%B%F{black})%b%F{cyan}'
+local line1_suffix='%B%F{black}(%b%F{cyan}%n%B%F{cyan}@%b%F{cyan}%m%B%F{black})%b%F{cyan}-'
+local gits="$(git_str)"
+
+local prompt_line_prefix_width=${#${(S%%)line1_prefix//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+local prompt_line_suffix_width=${#${(S%%)line1_suffix//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+local git_str_width=${#${(S%%)${gits}//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+
+
+line2='%}%B%F{cyan}\`-%b%F{cyan}-%B%F{white}%B%F{white}%(!.#.>)%b%f%k '
+local prompt_padding_size=$(( COLUMNS
+                               - prompt_line_prefix_width
+                               - git_str_width
+                               - prompt_line_suffix_width ))
+
+eval "prompt_padding=\${(l:${prompt_padding_size}::-:)_empty_zz}"
+PROMPT="${line1_prefix}${gits}${prompt_padding}${line1_suffix}
+$line2"
+}
+
+add-zsh-hook precmd my_prompt
 # _gnu_generic is a completion widget that parses the --help output of
 # commands for options. df and feh work fine with it, however options
 # are not described.
@@ -277,10 +341,12 @@ if [[ "$OS" == 'MACOS' ]]; then
 	alias ff='find . -iname'
 	alias ll="ls -FGlh "
 	alias la="ls -FGlha "
+  alias ack="ack -a"
 else
 	alias ls="ls -F --color=always"
 	alias ll="ls -lh --color=auto"
 	alias la="ls -lha --color=auto"
+  alias ack="ack-grep -a"
 fi
 
 alias mutt="mutt -y"
@@ -626,6 +692,7 @@ NO_verbose
 # Make sure our customised gtkrc file is loaded.
 export GTK2_RC_FILES=$HOME/.gtkrc-2.0
 export PATH="$PATH:/usr/local/pgsql/bin"
+
 export MANPATH="$MANPATH:/usr/local/pgsql/man"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/pgsql/lib"
 export PATH="$PATH:/Users/at/dev/maven/apache-maven-3.0.3/bin"
@@ -644,12 +711,10 @@ alias diff=colordiff
 alias grep="grep --color=auto"
 
 alias remind="remind -b1 -m"
-alias ack="ack -a"
 [[ -s "/Users/at/.rvm/scripts/rvm" ]] && source "/Users/at/.rvm/scripts/rvm"
 if [[ -s /Users/at/lib/git-achievements/git-achievements ]] ; then
   alias git='/Users/at/lib/git-achievements/git-achievements'
 fi
 alias be='bundle exec'
-prompt adam2
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
