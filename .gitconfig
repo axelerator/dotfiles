@@ -1,6 +1,6 @@
 [user]
   name = Axel Tetzlaff
-  email = axel.tetzlaff@gmx.de
+  email = axel.tetzlaff@fortytools.com
 [core]
   editor = /usr/bin/vim
 
@@ -19,3 +19,9 @@
 	serve= daemon --reuseaddr --verbose --base-path=. --export-all ./.git
 [merge]
   tool = vimdiff
+
+[git-up "fetch"]
+    prune = false
+[git-up "bundler"]
+  check = true
+  autoinstall = true

@@ -716,5 +716,37 @@ if [[ -s /Users/at/lib/git-achievements/git-achievements ]] ; then
   alias git='/Users/at/lib/git-achievements/git-achievements'
 fi
 alias be='bundle exec'
+alias bu='bundle update'
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+#unset LD_LIBRARY_PATH  
+#unset DYLD_LIBRARY_PATH
+alias rpipe='mkdir -p tmp && if [ ! -p tmp/rspec-test-pipe ]; then mkfifo tmp/rspec-test-pipe; fi && echo "Now listening to tmp/rspec-test-pipe" && while true; do sh -c "$(cat tmp/rspec-test-pipe)"; done'
+[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+
+# "catcher" wechselt zwischen LOKALEM und GEM catche
+# "catcher ++" erhöht die versionsnummer um eins
+catcher() {
+  if [[ "$1" == "++" ]]; then
+    CURRENTVERSION=`grep version *.gemspec| cut -d "." -f 3 | sed "s/\"//"`
+    NEXTVERSION=`calc -p $CURRENTVERSION + 1`
+    echo "Bumping gem version from $CURRENTVERSION to $NEXTVERSION"
+    sed -i "" "s/\(.*\.version.*\)\.\(.*\)\"/\1.$NEXTVERSION\"/" *.gemspec
+  else
+    grep -q -e "catcher.*path" Gemfile
+    if [[ "$?" -eq "1" ]]; then
+      sed -i "" "s/catcher\(.*\)/catcher\1, :path => '..\/catcher'/" Gemfile
+      echo "LOCAL CATCHER"
+    else
+      sed -i "" "s/catcher\(.*\), :path.*/catcher\1/" Gemfile
+      echo "GEM CATCHER"
+    fi
+    bundle
+  fi
+}
+
+f() {
+  find . -iname "*$1*"
+}
+
+export MAVEN_OPTS="-Xms512m -Xmx1024m -XX:MaxPermSize=768m -XX:+CMSClassUnloadingEnabled"

@@ -10,6 +10,8 @@ filetype plugin indent on         " Turn on file type detection.
 
 runtime macros/matchit.vim        " Load the matchit plugin.
 
+let mapleader = ","
+
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
 
@@ -55,6 +57,10 @@ set diffopt+=iwhite
 " Or use vividchalk
 colorscheme vividchalk
 set pastetoggle=<F2>
+
+" Remove trailing whitespace
+au BufWritePre *.rb,*.haml,*.sass,*.js,*.scss,*.css :%s/\s\+$//e
+
 " Tab mappings.
 map <leader>tt :tabnew<cr>
 map <leader>te :tabedit
@@ -89,3 +95,28 @@ nnoremap <C-J> ]c
 nnoremap <C-K> [c
 nnoremap <C-H> :diffget //2<CR>
 nnoremap <C-L> :diffget //3<CR>
+
+if exists("g:loaded_run_current_rspec") || &cp || v:version < 700
+  finish
+endif
+let g:loaded_run_current_rspec = 1
+
+" uses spring gem
+function! RSpecCurrent()
+  echom "Starting rspec on named pipe tmp/rspec-test-pipe"
+  if(!filereadable("bin/rspec"))
+    echom "pleas gem install spring && spring binstubs"
+    finish
+  endif
+  if(!filereadable("tmp/rspec-test-pipe"))
+    echom "mkfifo tmp/rspec-test-pipe && while true; do sh -c '$(cat tmp/rspec-test-pipe)'; done"
+    finish
+  else
+    execute "silent !echo \"bin/rspec --color " . expand("%p") . ":" . line(".") . "\" > tmp/rspec-test-pipe"
+  endif
+endfunction
+
+map <leader>r :call RSpecCurrent() <CR>
+
+runtime! scripts/*.vim
+runtime! config/*.vim
