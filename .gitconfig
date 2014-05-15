@@ -2,7 +2,7 @@
   name = Axel Tetzlaff
   email = axel.tetzlaff@gmx.de
 [core]
-  editor = /usr/bin/vim
+  editor = /usr/local/bin/vim
 
 [color] 
 				status = auto 

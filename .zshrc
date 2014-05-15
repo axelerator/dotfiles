@@ -694,7 +694,6 @@ export GTK2_RC_FILES=$HOME/.gtkrc-2.0
 export PATH="$PATH:/usr/local/pgsql/bin"
 
 export MANPATH="$MANPATH:/usr/local/pgsql/man"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/pgsql/lib"
 export PATH="$PATH:/Users/at/dev/maven/apache-maven-3.0.3/bin"
 
 export HOSTNAME=axeleratorpro
@@ -718,3 +717,6 @@ fi
 alias be='bundle exec'
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export PATH="/usr/local/bin:$PATH"
+eval "$(rbenv init -)"
+[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
