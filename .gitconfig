@@ -3,6 +3,7 @@
   email = axel.tetzlaff@gmx.de
 [core]
   editor = /usr/local/bin/vim
+	excludesfile = /Users/at/.gitignore_global
 
 [color] 
 				status = auto 
@@ -13,9 +14,10 @@
 	default = tracking
 [alias]
 	co = checkout
-	br = branch
+	br = branch -vv
 	ci = commit
 	st = status
+  df = diff --color-words
 	serve= daemon --reuseaddr --verbose --base-path=. --export-all ./.git
 [merge]
   tool = vimdiff
