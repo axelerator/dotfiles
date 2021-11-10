@@ -29,6 +29,7 @@ if command -v apt-get &> /dev/null; then
     install_for_linux "stow" "stow"
     install_for_linux "zsh" "zsh"
     install_for_linux "tmux" "tmux"
+    install_for_linux "autojump" "autojump"
 else
   if command -v brew &> /dev/null; then
     echo "Detected MacOS env"
