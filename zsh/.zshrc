@@ -13,6 +13,7 @@
 
 # BEGIN LOCAL
 export MAILDIR="$HOME/.maildir/"
+export GOPATH=$HOME
 
 export BROWSER="firefox"
 export TERMCMD="urxvtc"
@@ -335,16 +336,12 @@ fi
 bindkey '\e[5~' history-incremental-search-backward  # PageUp
 bindkey '\e[6~' history-incremental-search-forward # PageDown
 
-# directories in brighter blue
-export LSCOLORS=ExFxBxDxCxegedabagacad
-
 # Aliases
 if [[ "$OS" == 'MACOS' ]]; then
 	alias ls="ls -FGh" 
 	alias ff='find . -iname'
 	alias ll="ls -FGlh "
 	alias la="ls -FGlha "
-  alias ack="ack"
 else
 	alias ls="ls -F --color=always"
 	alias ll="ls -lh --color=auto"
@@ -708,6 +705,9 @@ export LC_MONETARY="en_US.UTF-8"
 export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
+
+#export DISABLE_SPRING=1
+export GIT_PR_RELEASE_TOKEN=b9ef2d8e881d72ce8d7b9f8560eca8c965c1d848
 alias diff=colordiff
 
 alias grep="grep --color=auto"
@@ -718,30 +718,55 @@ if [[ -s /Users/at/lib/git-achievements/git-achievements ]] ; then
   alias git='/Users/at/lib/git-achievements/git-achievements'
 fi
 alias be='bundle exec'
-alias n='npm run -- '
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-export PATH="/usr/local/sbin:/usr/local/bin:$PATH"
-eval "$(rbenv init -)"
+export PATH="/usr/local/bin:$PATH"
+#eval "$(rbenv init -)"
 [[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
-export ANDROID_HOME=/usr/local/opt/android-sdk
-export PATH="$HOME/.ndenv/bin:$PATH"
-eval "$(ndenv init -)"
+export PATH="/usr/local/share/chruby:$PATH"
 
-open_by_browser(){ open -a $1 $2}
-alias firefox='open_by_browser firefox'
-alias chrome='open_by_browser "Google Chrome"'
-alias xq='wmctrl -G -l | sed "s/.*local //" | xargs -IXX  wmctrl -r XX -e 0,0,0,100,100'
-alias de="docker-compose exec web"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+[ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
 
-# haskel bin path
-export PATH="$HOME/.local/bin:$PATH"
+# I mash this by accident far more often than intending too
+# I can live without it
+stty -ixon -ixoff
 
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-[ -f "/Users/at/.ghcup/env" ] && source "/Users/at/.ghcup/env" # ghcup-env
+unsetopt flowcontrol
+function insert-selecta-path-in-command-line() {
+    local selected_path
+    echo
+    selected_path=$(rg --files -g '!*.rbi' | fzy) || return
+    eval 'LBUFFER="$LBUFFER$selected_path"'
+    zle reset-prompt
+}
+zle -N insert-selecta-path-in-command-line
+bindkey "^S" "insert-selecta-path-in-command-line"
+
+alias b="git branch | cut -c 3- | fzy | xargs git checkout"
+alias gpm="git pull origin master --ff-only"
+alias gpr='git pull --rebase origin $(git rev-parse --abbrev-ref HEAD)'
+alias gcb='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
+v(){
+    if [[ -z $1 ]]; then
+        vim $(rg --files -g '!*.rbi'  | fzy)
+    else
+        vim $*
+    fi
+}
+
+fcd(){
+    cd "$(find -type d | fzy)"
+}
+
+#compdef v=vim
+
 if [ -e /Users/at/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/at/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+export HOMEBREW_GITHUB_API_TOKEN=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
+
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
+
+[[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)

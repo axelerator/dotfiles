@@ -1,0 +1,49 @@
+#!/bin/sh
+
+install_for_mac()
+{
+  EXECUTABLE_NAME=$1
+  PACKAGE_NAME=$2
+  if ! command -v $EXECUTABLE_NAME &> /dev/null; then
+    echo "'$PACKAGE_NAME'..installing"
+    brew install $2
+  else
+    echo "'$PACKAGE_NAME' already installed"
+  fi
+}
+
+install_for_linux()
+{
+  EXECUTABLE_NAME=$1
+  PACKAGE_NAME=$2
+  if ! command -v $EXECUTABLE_NAME &> /dev/null; then
+    echo "'$PACKAGE_NAME'..installing"
+    sudo apt-get -y install $2
+  else
+    echo "'$PACKAGE_NAME' already installed"
+  fi
+}
+
+if command -v apt-get &> /dev/null; then
+  echo "Detected linux env"
+    install_for_mac "stow" "stow"
+    install_for_mac "zsh" "zsh"
+else
+  if command -v brew &> /dev/null; then
+    echo "Detected MacOS env"
+    install_for_mac "stow" "stow"
+    install_for_mac "zsh" "zsh"
+  else
+    echo "No env detected, dont know how to install packages"
+    exit -1
+  fi
+fi
+
+for folder in `ls ~/dotfiles`
+do
+    if [ -d "$folder" ]; then
+      echo "Linking '$folder'"
+      stow -D $folder >/dev/null 2>&1
+      stow $folder
+    fi
+done
