@@ -44,7 +44,7 @@ fi
 
 # spin comes with some config files with stow would not override
 rm -f ~/.zshrc
-rm -f ~/.gitconfig
+#rm -f ~/.gitconfig
 
 for folder in `ls ~/dotfiles`
 do
