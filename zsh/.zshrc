@@ -15,8 +15,6 @@
 export MAILDIR="$HOME/.maildir/"
 export GOPATH=$HOME
 
-export BROWSER="firefox"
-export TERMCMD="urxvtc"
 export EDITOR="vim"
 
 source "$HOME/.profile"
@@ -59,15 +57,6 @@ if [[ -f /usr/bin/less ]] ; then
     export PAGER=less
     export LESS="--ignore-case --long-prompt -RSNg"
 fi
-if [[ -f /usr/bin/vimpager ]] ; then
-    export PAGER=vimpager
-    export MANPAGER=vimmanpager
-fi
-alias page=$PAGER
-
-#if [ -z $VG_VIEWGLOB_ACTIVE ] && [ $DISPLAY ] ; then
-#    exec viewglob
-#fi
 
 # END LOCAL
 
@@ -696,7 +685,6 @@ export PATH="$PATH:/usr/local/pgsql/bin"
 export MANPATH="$MANPATH:/usr/local/pgsql/man"
 export PATH="$PATH:/Users/at/dev/maven/apache-maven-3.0.3/bin"
 
-export HOSTNAME=axeleratorpro
 export LANG="en_US.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
@@ -707,34 +695,17 @@ export LC_TIME="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 #export DISABLE_SPRING=1
-export GIT_PR_RELEASE_TOKEN=b9ef2d8e881d72ce8d7b9f8560eca8c965c1d848
 alias diff=colordiff
 
 alias grep="grep --color=auto"
 
-alias remind="remind -b1 -m"
-[[ -s "/Users/at/.rvm/scripts/rvm" ]] && source "/Users/at/.rvm/scripts/rvm"
-if [[ -s /Users/at/lib/git-achievements/git-achievements ]] ; then
-  alias git='/Users/at/lib/git-achievements/git-achievements'
-fi
 alias be='bundle exec'
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-export PATH="/usr/local/bin:$PATH"
-#eval "$(rbenv init -)"
-[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-export PATH="/usr/local/share/chruby:$PATH"
 
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
 
 # I mash this by accident far more often than intending too
 # I can live without it
-stty -ixon -ixoff
 
-unsetopt flowcontrol
 function insert-selecta-path-in-command-line() {
     local selected_path
     echo
@@ -761,12 +732,9 @@ fcd(){
     cd "$(find -type d | fzy)"
 }
 
-#compdef v=vim
-
 if [ -e /Users/at/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/at/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 export HOMEBREW_GITHUB_API_TOKEN=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
 
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
-
 [[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
