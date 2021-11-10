@@ -26,13 +26,15 @@ install_for_linux()
 
 if command -v apt-get &> /dev/null; then
   echo "Detected linux env"
-    install_for_mac "stow" "stow"
-    install_for_mac "zsh" "zsh"
+    install_for_linux "stow" "stow"
+    install_for_linux "zsh" "zsh"
+    install_for_linux "tmux" "tmux"
 else
   if command -v brew &> /dev/null; then
     echo "Detected MacOS env"
     install_for_mac "stow" "stow"
     install_for_mac "zsh" "zsh"
+    install_for_mac "tmux" "tmux"
   else
     echo "No env detected, dont know how to install packages"
     exit -1
