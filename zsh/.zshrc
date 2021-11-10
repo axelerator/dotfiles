@@ -112,3 +112,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+export HOMEBREW_GITHUB_API_TOKEN=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
+[[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
