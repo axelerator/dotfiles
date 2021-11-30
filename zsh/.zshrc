@@ -118,3 +118,5 @@ export HOMEBREW_GITHUB_API_TOKEN=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
 
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
 
+
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }

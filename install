@@ -30,6 +30,7 @@ if command -v apt-get &> /dev/null; then
     install_for_linux "zsh" "zsh"
     install_for_linux "tmux" "tmux"
     install_for_linux "autojump" "autojump"
+    install_for_linux "fzy" "fzy"
 else
   if command -v brew &> /dev/null; then
     echo "Detected MacOS env"
@@ -37,6 +38,7 @@ else
     install_for_mac "zsh" "zsh"
     install_for_mac "tmux" "tmux"
     install_for_mac "autojump" "autojump"
+    install_for_mac "fzy" "fzy"
   else
     echo "No env detected, dont know how to install packages"
     exit -1

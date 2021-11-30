@@ -10,7 +10,7 @@ filetype plugin indent on         " Turn on file type detection.
 filetype off                      " required
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-vividchalk'
-"Plug 'Valloric/YouCompleteMe'
+Plug 'skwp/greplace.vim'
 Plug 'git@github.com:nbouscal/vim-stylish-haskell.git'
 Plug 'andys8/vim-elm-syntax', { 'for': ['elm'] }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -105,6 +105,30 @@ autocmd FileType haml,c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :c
 
 au BufNewFile,BufRead *.vue setlocal ft=html
 
+
+function! FzyCommand(choice_command, vim_command)
+  try
+    let output = system(a:choice_command . " | fzy ")
+  catch /Vim:Interrupt/
+    " Swallow errors from ^C, allow redraw! below
+  endtry
+  redraw!
+  if v:shell_error == 0 && !empty(output)
+    exec a:vim_command . ' ' . output
+  endif
+endfunction
+
+function! Fzy(choice_command)
+  try
+    let output = system(a:choice_command . " | fzy ")
+  catch /Vim:Interrupt/
+    " Swallow errors from ^C, allow redraw! below
+  endtry
+  redraw!
+  return output
+endfunction
+
+cnoremap <C-T> <C-R>=Fzy("git ls-files --cached --exclude-standard --others")<cr>
 
 " ---- COC mapping  BEGIN
 
