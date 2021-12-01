@@ -57,3 +57,8 @@ do
       stow $folder
     fi
 done
+
+# fix bin paths for linux
+
+sed -i 's|local/bin|bin|g' ~/.tmux.conf
+sed -i 's|local/bin|bin|g' ~/.gitconfig
