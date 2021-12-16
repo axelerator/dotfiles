@@ -31,6 +31,12 @@ if command -v apt-get &> /dev/null; then
     install_for_linux "tmux" "tmux"
     install_for_linux "autojump" "autojump"
     install_for_linux "fzy" "fzy"
+    install_for_linux "fd" "fd"
+
+    # fix bin paths for linux
+
+    sed -i 's|local/bin|bin|g' ~/.tmux.conf
+    sed -i 's|local/bin|bin|g' ~/.gitconfig
 else
   if command -v brew &> /dev/null; then
     echo "Detected MacOS env"
@@ -39,6 +45,8 @@ else
     install_for_mac "tmux" "tmux"
     install_for_mac "autojump" "autojump"
     install_for_mac "fzy" "fzy"
+    install_for_mac "fd" "fd"
+    install_for_mac "kitty" "kitty"
   else
     echo "No env detected, dont know how to install packages"
     exit -1
@@ -58,7 +66,4 @@ do
     fi
 done
 
-# fix bin paths for linux
-
-sed -i 's|local/bin|bin|g' ~/.tmux.conf
-sed -i 's|local/bin|bin|g' ~/.gitconfig
+#https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono
