@@ -120,3 +120,6 @@ export HOMEBREW_GITHUB_API_TOKEN=`cat ~/.config/HOMEBREW_GITHUB_API_TOKEN`
 
 
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
+
+export PATH="$HOME/.ndenv/bin:$PATH"
+[ -f /Users/at/.ndenv/bin/ndenv ] && eval "$(ndenv init -)"
