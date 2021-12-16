@@ -113,7 +113,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export HOMEBREW_GITHUB_API_TOKEN=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
+export HOMEBREW_GITHUB_API_TOKEN=`cat ~/.config/HOMEBREW_GITHUB_API_TOKEN`
 [[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
 
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
