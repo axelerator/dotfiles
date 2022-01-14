@@ -2,8 +2,8 @@
 	name = Axel Tetzlaff
 	email = axel.tetzlaff@shopify.com
 [core]
-  editor = /usr/local/bin/vim
-	excludesfile = /Users/at/.gitignore_global
+  editor = nvim
+  excludesfile = /Users/at/.gitignore_global
 	commitGraph = true
 
 [color] 
@@ -38,3 +38,11 @@
 	required = true
 [pull]
 	rebase = true
+[credential]
+	helper = 
+	helper = store --file /opt/dev/var/private/git_credential_store
+[url "https://github.com/Shopify/"]
+	insteadOf = git@github.com:Shopify/
+	insteadOf = git@github.com:shopify/
+	insteadOf = ssh://git@github.com/Shopify/
+	insteadOf = ssh://git@github.com/shopify/
