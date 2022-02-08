@@ -115,6 +115,7 @@ source $ZSH/oh-my-zsh.sh
 
 export HOMEBREW_GITHUB_API_TOKEN=`cat ~/.config/HOMEBREW_GITHUB_API_TOKEN`
 [[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
+[[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
 
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
 
