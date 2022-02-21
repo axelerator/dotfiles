@@ -34,7 +34,7 @@ if command -v apt-get &> /dev/null; then
     install_for_linux "fd" "fd"
 
     # fix terminfo for ssh with kitty
-    .config/kitty/fix_remote_term/install_terminfo.sh
+    # .config/kitty/fix_remote_term/install_terminfo.sh
 else
   if command -v brew &> /dev/null; then
     echo "Detected MacOS env"
