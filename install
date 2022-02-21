@@ -26,6 +26,19 @@ install_for_linux()
   fi
 }
 
+# spin comes with some config files with stow would not override
+rm -f ~/.zshrc
+rm -f ~/.gitconfig
+
+for folder in `ls ~/dotfiles`
+do
+    if [ -d "$folder" ]; then
+      echo "Linking '$folder'"
+      stow -D $folder >/dev/null 2>&1
+      stow $folder
+    fi
+done
+
 if command -v apt-get &> /dev/null; then
   echo "Detected linux env"
     #                 BINARY PCKG-NAME
@@ -53,18 +66,5 @@ else
     exit -1
   fi
 fi
-
-# spin comes with some config files with stow would not override
-rm -f ~/.zshrc
-rm -f ~/.gitconfig
-
-for folder in `ls ~/dotfiles`
-do
-    if [ -d "$folder" ]; then
-      echo "Linking '$folder'"
-      stow -D $folder >/dev/null 2>&1
-      stow $folder
-    fi
-done
 
 #https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono
