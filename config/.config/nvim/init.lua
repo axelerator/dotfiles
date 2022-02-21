@@ -70,6 +70,7 @@ nmap("<C-G>", "<cmd>Telescope live_grep<CR>")
 
 -- auto-format
 vim.api.nvim_command("autocmd BufWritePre *.elm lua vim.lsp.buf.formatting_sync(nil, 5000)")
+vim.api.nvim_command("autocmd BufWritePre *.rb silent exec \"%!rubocop -a --stderr --stdin % 2> /dev/null\"")
 -- --------------------------------------------------------------------------
 -- Plugins
 -- --------------------------------------------------------------------------
@@ -102,6 +103,7 @@ require "paq" {
     'nvim-telescope/telescope.nvim';
 
     -- projectionist to define 'pairs' of files
+    'ngmy/vim-rubocop'
 
 }
 
@@ -162,3 +164,5 @@ cmp.setup({
   require('lspconfig')['elmls'].setup {
     capabilities = capabilities
   }
+
+  require'lspconfig'.solargraph.setup{}

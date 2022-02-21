@@ -113,6 +113,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# make binaries install with --user-install on system ruby available
+if which ruby >/dev/null && which gem >/dev/null; then
+    PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+fi
+
 export HOMEBREW_GITHUB_API_TOKEN=`cat ~/.config/HOMEBREW_GITHUB_API_TOKEN`
 [[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
 [[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
