@@ -4,11 +4,12 @@ install_for_mac()
 {
   EXECUTABLE_NAME=$1
   PACKAGE_NAME=$2
-  if ! command -v $EXECUTABLE_NAME &> /dev/null; then
+  if command -v $EXECUTABLE_NAME 
+  then
+    echo "'$PACKAGE_NAME' already installed"
+  else
     echo "'$PACKAGE_NAME'..installing"
     brew install $2
-  else
-    echo "'$PACKAGE_NAME' already installed"
   fi
 }
 
@@ -16,22 +17,24 @@ install_for_linux()
 {
   EXECUTABLE_NAME=$1
   PACKAGE_NAME=$2
-  if ! command -v $EXECUTABLE_NAME &> /dev/null; then
+  if command -v $EXECUTABLE_NAME 
+  then
+    echo "'$PACKAGE_NAME' already installed"
+  else
     echo "'$PACKAGE_NAME'..installing"
     sudo apt-get -y install $2
-  else
-    echo "'$PACKAGE_NAME' already installed"
   fi
 }
 
 if command -v apt-get &> /dev/null; then
   echo "Detected linux env"
-    install_for_linux "stow" "stow"
-    install_for_linux "zsh" "zsh"
-    install_for_linux "tmux" "tmux"
-    install_for_linux "autojump" "autojump"
-    install_for_linux "fzy" "fzy"
-    install_for_linux "fd" "fd"
+    #                 BINARY PCKG-NAME
+    install_for_linux "stow"      "stow"
+    install_for_linux "zsh"       "zsh"
+    install_for_linux "tmux"      "tmux"
+    install_for_linux "autojump"  "autojump"
+    install_for_linux "fzy"       "fzy"
+    install_for_linux "fdfind"    "fd-find"
 
     # fix terminfo for ssh with kitty
     ~/.config/kitty/fix_remote_term/install_terminfo.sh
