@@ -67,10 +67,17 @@ vmap("Y", "myY`y")
 nmap("<C-P>", "<cmd>Telescope find_files<CR>")
 nmap("<C-G>", "<cmd>Telescope live_grep<CR>")
 
+vim.cmd([[
+  function! Rubocop()
+    let save_pos = getpos(".")
+    %!rubocop -A --stderr --stdin % 2> /dev/null
+    call setpos(".", save_pos)
+  endfunction
+]])
 
 -- auto-format
 vim.api.nvim_command("autocmd BufWritePre *.elm lua vim.lsp.buf.formatting_sync(nil, 5000)")
-vim.api.nvim_command("autocmd BufWritePre *.rb silent exec \"%!rubocop -a --stderr --stdin % 2> /dev/null\"")
+vim.api.nvim_command("autocmd BufWritePre *.rb silent call Rubocop()")
 -- --------------------------------------------------------------------------
 -- Plugins
 -- --------------------------------------------------------------------------
