@@ -1,7 +1,6 @@
 [user]
 	name = Axel Tetzlaff
 	email = axel.tetzlaff@shopify.com
-	signingkey = 02023CA2900532B0
 [core]
   editor = nvim
   excludesfile = /Users/at/.gitignore_global
