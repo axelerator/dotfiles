@@ -45,6 +45,16 @@ function vmap(key, binding)
    ) 
 end
 
+function imap(key, binding)
+  vim.api.nvim_set_keymap(
+    "i",
+    key,
+    binding,
+    { noremap = true }
+   ) 
+end
+
+
 function file_exists(name)
    local f=io.open(name,"r")
    if f~=nil then io.close(f) return true else return false end
@@ -59,6 +69,25 @@ nmap("<leader> ", "<cmd>lua vim.lsp.buf.hover()<CR>")
 nmap("<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
 nmap("<leader><CR>", "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>")
 nmap("<leader>=", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+--
+
+-- imap("<C-L>", '<ESC> :copilot#Accept("<CR>")')
+--imap("<silent><script><expr><C-L> ", 'copilot#Accept("<CR>")')
+
+--vim.api.nvim_set_keymap('i', '<C-L>', 'copilot#Accept("<CR>")', {expr=true, silent=true})
+
+
+vim.cmd([[
+  imap <silent><script><expr> <C-L> copilot#Accept("\<CR>")
+
+  let g:copilot_no_tab_map = v:true
+  let g:copilot_filetypes = {
+     \    '*': v:false,
+     \    'ruby': v:true,
+     \  }
+]])
+
+
 -- Maintain the cursor position when yanking a visual selection
 -- http://ddrscott.github.io/blog/2016/yank-without-jank/
 vmap("y", "myy`y")
@@ -66,6 +95,7 @@ vmap("Y", "myY`y")
 
 nmap("<C-P>", "<cmd>Telescope find_files<CR>")
 nmap("<C-G>", "<cmd>Telescope live_grep<CR>")
+
 
 vim.cmd([[
   function! Rubocop()
@@ -77,7 +107,7 @@ vim.cmd([[
 
 -- auto-format
 vim.api.nvim_command("autocmd BufWritePre *.elm lua vim.lsp.buf.formatting_sync(nil, 5000)")
-vim.api.nvim_command("autocmd BufWritePre *.rb silent call Rubocop()")
+vim.api.nvim_command("autocmd BufWritePre *.rb call Rubocop() ")
 -- --------------------------------------------------------------------------
 -- Plugins
 -- --------------------------------------------------------------------------
@@ -109,8 +139,11 @@ require "paq" {
     'nvim-lua/plenary.nvim';
     'nvim-telescope/telescope.nvim';
 
+    'github/copilot.vim';
+    --'hrsh7th/cmp-copilot';
+
+
     -- projectionist to define 'pairs' of files
-    'ngmy/vim-rubocop'
 
 }
 
@@ -145,6 +178,7 @@ cmp.setup({
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
       { name = 'luasnip' },
+      --{ name = 'copilot' },
       { name = 'buffer', keyword_length = 3 },
     })
   })
