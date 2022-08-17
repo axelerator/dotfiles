@@ -7,7 +7,14 @@ vim.o.expandtab = true
 vim.o.shiftwidth = 2
 vim.o.tabstop = 2
 vim.o.hidden = true
-vim.o.clipboard = "unnamedplus"
+
+vim.g.clipboard = {
+  name          = 'pbcopy',
+  copy          = { ['+'] = 'pbcopy', ['*'] = 'pbcopy' },
+  paste         = { ['+'] = 'pbpaste', ['*'] = 'pbpaste' },
+  cache_enabled = 0,
+}
+
 vim.o.termguicolors = true 
 vim.o.scrolloff = 8
 vim.o.signcolumn = "yes:2"
