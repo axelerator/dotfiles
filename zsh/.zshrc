@@ -120,12 +120,10 @@ if which ruby >/dev/null && which gem >/dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
-export HOMEBREW_GITHUB_API_TOKEN=`cat ~/.config/HOMEBREW_GITHUB_API_TOKEN`
-[[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
+[ -f ~/.config/HOMEBREW_GITHUB_API_TOKEN ] && export HOMEBREW_GITHUB_API_TOKEN=`cat ~/.config/HOMEBREW_GITHUB_API_TOKEN`
 [[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
 
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
-
 
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
 
