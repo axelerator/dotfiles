@@ -7,3 +7,11 @@ config/.config/configstore/
 config/.config/shadowenv/
 config/.config/spin/
 config/.config/containers
+config/.config/Battle.net/ 
+config/.config/pudb 
+zsh/.zshrc-e
+config/.config/asciinema/
+config/.config/gh/
+config/.config/helix/
+config/.config/lvim/
+config/.config/mdless/
