@@ -30,15 +30,6 @@ install_for_linux()
 rm -f ~/.zshrc
 rm -f ~/.gitconfig
 
-for folder in `ls ~/dotfiles`
-do
-    if [ -d "$folder" ]; then
-      echo "Linking '$folder'"
-      stow -D $folder >/dev/null 2>&1
-      stow $folder
-    fi
-done
-
 if command -v apt-get &> /dev/null; then
   echo "Detected linux env"
     #                 BINARY PCKG-NAME
@@ -67,4 +58,16 @@ else
   fi
 fi
 
+for folder in `ls ~/dotfiles`
+do
+    if [ -d "$folder" ]; then
+      echo "Linking '$folder'"
+      stow -D $folder >/dev/null 2>&1
+      stow $folder
+    fi
+done
+
 #https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono
+
+# https://github.com/wbthomason/packer.nvim#quickstart
+git clone --depth 1 https://github.com/wbthomason/packer.nvim  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
