@@ -26,10 +26,42 @@ install_for_linux()
   fi
 }
 
+# == 1. CLEAN UP
+
 # spin comes with some config files with stow would not override
 rm -f ~/.zshrc
 rm -f ~/.gitconfig
 
+
+# == 2. INSTALL STOW
+
+if command -v apt-get &> /dev/null; then
+  echo "Detected linux env"
+    #                 BINARY PCKG-NAME
+    install_for_linux "stow"      "stow"
+else
+  if command -v brew &> /dev/null; then
+    echo "Detected MacOS env"
+    install_for_mac "stow" "stow"
+  else
+    echo "No env detected, dont know how to install packages"
+    exit -1
+  fi
+fi
+
+# == 3. SYMLINK DOTFILES WITH STOW
+
+for folder in `ls ~/dotfiles`
+do
+    if [ -d "$folder" ]; then
+      echo "Linking '$folder'"
+      stow -D $folder >/dev/null 2>&1
+      stow $folder
+    fi
+done
+
+# == 4. INSTALL CUSTOM PACKAGES
+#
 if command -v apt-get &> /dev/null; then
   echo "Detected linux env"
     #                 BINARY PCKG-NAME
@@ -58,16 +90,8 @@ else
   fi
 fi
 
-for folder in `ls ~/dotfiles`
-do
-    if [ -d "$folder" ]; then
-      echo "Linking '$folder'"
-      stow -D $folder >/dev/null 2>&1
-      stow $folder
-    fi
-done
-
 #https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono
 
-# https://github.com/wbthomason/packer.nvim#quickstart
-git clone --depth 1 https://github.com/wbthomason/packer.nvim  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+# Initialize NeoVim & Packer
+ln -s ~/dotfiles/config/.config/nvim/vendor/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+nvim --headless -c 'so ~/dotfiles/config/.config/nvim/lua/axelerator/packer.lua' -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
