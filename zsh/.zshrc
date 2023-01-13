@@ -113,6 +113,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+alias lvim="/Users/at/.local/bin/lvim"
+
 # make binaries install with --user-install on system ruby available
 if which ruby >/dev/null && which gem >/dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
@@ -127,5 +129,24 @@ export HOMEBREW_GITHUB_API_TOKEN=`cat ~/.config/HOMEBREW_GITHUB_API_TOKEN`
 
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
 
-export PATH="$HOME/.ndenv/bin:$PATH"
-[ -f /Users/at/.ndenv/bin/ndenv ] && eval "$(ndenv init -)"
+export PATH="$HOME/.nodenv/bin:$PATH"
+[ -f /opt/homebrew/bin/nodenv ] && eval "$(nodenv init -)"
+
+[ -f "/Users/at/.ghcup/env" ] && source "/Users/at/.ghcup/env" # ghcup-env
+[ -f "/opt/homebrew/bin/rbenv" ] && eval "$(rbenv init - zsh)"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
