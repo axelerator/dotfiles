@@ -94,4 +94,4 @@ fi
 
 # Initialize NeoVim & Packer
 ln -s ~/dotfiles/config/.config/nvim/vendor/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-nvim --headless -c 'so ~/dotfiles/config/.config/nvim/lua/axelerator/packer.lua' -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+# nvim --headless -c 'so ~/dotfiles/config/.config/nvim/lua/axelerator/packer.lua' -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
