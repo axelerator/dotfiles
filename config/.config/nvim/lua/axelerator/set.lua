@@ -9,6 +9,7 @@ vim.g.clipboard = {
   paste         = { ['+'] = 'pbpaste', ['*'] = 'pbpaste' },
   cache_enabled = 0,
 }
+vim.opt.clipboard = 'unnamedplus'
 
 vim.o.termguicolors = true 
 vim.o.scrolloff = 8
