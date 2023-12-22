@@ -104,11 +104,6 @@ _G.packer_plugins = {
     path = "/Users/at/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
-  ["friendly-snippets"] = {
-    loaded = true,
-    path = "/Users/at/.local/share/nvim/site/pack/packer/start/friendly-snippets",
-    url = "https://github.com/rafamadriz/friendly-snippets"
-  },
   ["lsp-zero.nvim"] = {
     loaded = true,
     path = "/Users/at/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
@@ -154,10 +149,20 @@ _G.packer_plugins = {
     path = "/Users/at/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
+  ["roc.vim"] = {
+    loaded = true,
+    path = "/Users/at/.local/share/nvim/site/pack/packer/start/roc.vim",
+    url = "https://github.com/ChrisWellsWood/roc.vim"
+  },
   ["telescope.nvim"] = {
     loaded = true,
     path = "/Users/at/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  ["vim-abolish"] = {
+    loaded = true,
+    path = "/Users/at/.local/share/nvim/site/pack/packer/start/vim-abolish",
+    url = "https://github.com/tpope/vim-abolish"
   },
   ["vim-airline"] = {
     loaded = true,

@@ -17,9 +17,11 @@ return require('packer').startup(function(use)
   use 'vim-airline/vim-airline'
   use 'vim-airline/vim-airline-themes'
 
+  use 'ChrisWellsWood/roc.vim'
+
   use({'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'})
   use('tpope/vim-fugitive')
-
+  use('tpope/vim-abolish')
 
   use {
 	  'VonHeikemen/lsp-zero.nvim',
@@ -36,10 +38,16 @@ return require('packer').startup(function(use)
 		  {'saadparwaiz1/cmp_luasnip'},
 		  {'hrsh7th/cmp-nvim-lsp'},
 		  {'hrsh7th/cmp-nvim-lua'},
-
 		  -- Snippets
-		  {'L3MON4D3/LuaSnip'},
+      use{
+        "L3MON4D3/LuaSnip",
+        -- follow latest release.
+        tag = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+        -- install jsregexp (optional!:).
+        run = "make install_jsregexp"
+      },
 		  {'rafamadriz/friendly-snippets'},
+      {'f3fora/cmp-spell'},
 	  }
   }
 end)
