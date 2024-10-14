@@ -39,13 +39,16 @@ function _add_identities() {
     return
   fi
 
-  # add default keys if no identities were set up via zstyle
-  # this is to mimic the call to ssh-add with no identities
-  if [[ ${#identities} -eq 0 ]]; then
-    # key list found on `ssh-add` man page's DESCRIPTION section
-    for id in id_rsa id_dsa id_ecdsa id_ed25519 identity; do
-      # check if file exists
-      [[ -f "$HOME/.ssh/$id" ]] && identities+=($id)
+  # If no keys specified in zstyle, add default keys.
+  # Mimics calling ssh-add with no arguments.
+  if [[ ${#identities[@]} -eq 0 ]]; then
+    # Iterate over files in .ssh folder.
+    for file in "$HOME/.ssh"/*; do
+      # Check if file is a regular file and starts with "-----BEGIN OPENSSH PRIVATE KEY-----".
+      if [[ -f "$file" && $(command head -n 1 "$file") =~ ^-----BEGIN\ OPENSSH\ PRIVATE\ KEY----- ]]; then
+        # Add filename (without path) to identities array.
+        identities+=("${file##*/}")
+      fi
     done
   fi
 
@@ -62,7 +65,7 @@ function _add_identities() {
     # if id is an absolute path, make file equal to id
     [[ "$id" = /* ]] && file="$id" || file="$HOME/.ssh/$id"
     # check for filename match, otherwise try for signature match
-    if [[ ${loaded_ids[(I)$file]} -le 0 ]]; then
+    if [[ -f $file && ${loaded_ids[(I)$file]} -le 0 ]]; then
       sig="$(ssh-keygen -lf "$file" | awk '{print $2}')"
       [[ ${loaded_sigs[(I)$sig]} -le 0 ]] && not_loaded+=("$file")
     fi
@@ -98,8 +101,14 @@ function _add_identities() {
 
 # Add a nifty symlink for screen/tmux if agent forwarding is enabled
 if zstyle -t :omz:plugins:ssh-agent agent-forwarding \
-   && [[ -n "$SSH_AUTH_SOCK" && ! -L "$SSH_AUTH_SOCK" ]]; then
-  ln -sf "$SSH_AUTH_SOCK" /tmp/ssh-agent-$USERNAME-screen
+   && [[ -n "$SSH_AUTH_SOCK" ]]; then
+  if [[ ! -L "$SSH_AUTH_SOCK" ]]; then
+    if [[ -n "$TERMUX_VERSION" ]]; then
+      ln -sf "$SSH_AUTH_SOCK" "$PREFIX"/tmp/ssh-agent-$USERNAME-screen
+    else
+      ln -sf "$SSH_AUTH_SOCK" /tmp/ssh-agent-$USERNAME-screen
+    fi
+  fi
 else
   _start_agent
 fi
